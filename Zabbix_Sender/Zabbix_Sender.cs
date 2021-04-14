@@ -43,9 +43,9 @@ namespace Zabbix_Sender
             using (TcpClient lTCPc = new TcpClient(ZbxServer, ZbxPort))
             using (NetworkStream lStream = lTCPc.GetStream())
             {
-                byte[] Header = Encoding.ASCII.GetBytes("ZBXD\x01");
-                byte[] DataLen = BitConverter.GetBytes((long)jr.Length);
-                byte[] Content = Encoding.ASCII.GetBytes(jr);
+                byte[] Header = Encoding.UTF8.GetBytes("ZBXD\x01");
+                byte[] Content = Encoding.UTF8.GetBytes(jr);
+                byte[] DataLen = BitConverter.GetBytes((long)Content.Length);
                 byte[] Message = new byte[Header.Length + DataLen.Length + Content.Length];
                 Buffer.BlockCopy(Header, 0, Message, 0, Header.Length);
                 Buffer.BlockCopy(DataLen, 0, Message, Header.Length, DataLen.Length);
